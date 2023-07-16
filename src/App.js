@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Panell from './components/Panell/Panell';
+import TitleStyle from './TitleStyle';
 
 function App() {
   { /* Exercici 1 - Sprint 7 --> creació d'un array amb les dades */ }
@@ -19,19 +20,19 @@ function App() {
       isChecked: false
     }
   ]);
-
+  
   {/* Exercici 2 - Sprint 7 --> expreure la informació de Panell */ }
   const [pageNum, setPageNum] = useState(0);
   const [languagesNum, setLanguagesNum] = useState(0);
 
   const handlePageNumChange = (event) => {
     const value = parseInt(event.target.value);
-    setPageNum(value > 0 ? value : 1);    {/* limitar el mínim a introduïr 1, el 0 (o negatius) no seran vàlids */}
+    setPageNum(value); 
   };
 
   const handleLanguagesNumChange = (event) => {
     const value = parseInt(event.target.value);
-    setLanguagesNum(value > 0 ? value : 1);   {/* limitar el mínim a introduïr 1, el 0 (o negatius) no seran vàlids */}
+    setLanguagesNum(value);
   };
 
   { /* Exercici 1 - Sprint 7 --> extreure les dades dels elements triats */ }
@@ -42,15 +43,22 @@ function App() {
   }
 
   { /* Exercici 1 - Sprint 7 --> calcular el total */ }
-  { /* Exercici 2 - Sprint 7 --> calcular el total amb el extres afegits */ }
+  { /* Exercici 2 i 3 - Sprint 7 --> calcular el total amb el extres afegits i que no s'apliqui a les altre opcions */ }
   const getTotalBudget = () =>
-    budgetInfo
-      .filter((item) => item.isChecked)
-      .reduce((total, item) => total + item.budgetPrice + (pageNum * languagesNum * 30), 0);
+    budgetInfo.reduce((total, item) => {
+      if (item.isChecked) {
+        if (item === budgetInfo[0]) {
+          return total + item.budgetPrice + pageNum * languagesNum * 30;
+        } else {
+          return total + item.budgetPrice;
+        }
+      }
+    return total;
+  }, 0);
 
   return (
   <div className="App">
-    <p>Què vols fer?</p>
+    <TitleStyle>Què vols fer?</TitleStyle>
     <div>
       {budgetInfo.map((item, index) => (
         <div key={index}>
@@ -62,14 +70,14 @@ function App() {
           {item.budgetText}
           {/* Exercici 2 - Sprint 7 --> Ensenyar el Panell per pantalla */}
           <div>
-            {index === 0 && item.isChecked && 
+            {index === 0 && item.isChecked && (
             <Panell
             pageNum={pageNum}
             languagesNum={languagesNum}
             handlePageNumChange={handlePageNumChange}
             handleLanguagesNumChange={handleLanguagesNumChange}
           />
-            }
+            )}
           </div>
         </div>
       ))}
