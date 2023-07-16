@@ -20,6 +20,17 @@ function App() {
       isChecked: false
     }
   ]);
+
+  { /* Exercici 4 - Sprint 7 --> definir el total del pressupost i executar useEffect en començar l'aplicació */ }
+  const[totalBudget, setTotalBudget] = useState(0);
+
+  useEffect(() => {
+    const data = localStorage.getItem('totalBudget');
+    if (data) {
+      const parsedData = JSON.parse(data);
+      setTotalBudget(parsedData);
+    }
+  }, []);
   
   {/* Exercici 2 - Sprint 7 --> expreure la informació de Panell */ }
   const [pageNum, setPageNum] = useState(0);
@@ -55,6 +66,16 @@ function App() {
       }
     return total;
   }, 0);
+
+  { /* Exercici 4 - Sprint 7 --> carregar les noves dades */ }
+  useEffect(() => {
+    const data = JSON.stringify(getTotalBudget());
+    localStorage.setItem('totalBudget', data);
+  }, [totalBudget]);
+
+  useEffect(() => {
+    setTotalBudget(getTotalBudget());
+  }, [budgetInfo, pageNum, languagesNum]);
 
   return (
   <div className="App">
