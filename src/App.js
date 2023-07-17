@@ -4,7 +4,8 @@ import TitleStyle from './TitleStyle';
 
 function App() {
   { /* Exercici 1 - Sprint 7 --> creació d'un array amb les dades */ }
-  const [budgetInfo, setBudgetInfo] = useState([{
+  const initialBudgetInfo = [
+    {
       budgetText: 'Una pàgina web (500€)',
       budgetPrice: 500,
       isChecked: false
@@ -19,13 +20,16 @@ function App() {
       budgetPrice: 200,
       isChecked: false
     }
-  ]);
+  ];
 
+  const [budgetInfo, setBudgetInfo] = useState(initialBudgetInfo);
   { /* Exercici 4 - Sprint 7 --> definir el total del pressupost */ }
   const [totalBudget, setTotalBudget] = useState(() => {
     const data = localStorage.getItem('totalBudget');
-    return data ? JSON.parse(data) : getTotalBudget();
+    return data ? JSON.parse(data) : 0;
   });
+
+  // const [savedLocalStorage, setSavedLocalStorage] = useState(null);
 
   {/* Exercici 2 - Sprint 7 --> definir els elements amb els que treballarem al component Panell */ }
   const [pageNum, setPageNum] = useState(0);
@@ -68,20 +72,19 @@ function App() {
     setTotalBudget(getTotalBudget());
   }, [budgetInfo, pageNum, languagesNum]);
 
-  { /* Exercici 4 - Sprint 7 --> carregar les dades noves */ }
+  useEffect(() => {
+    localStorage.setItem('totalBudget', JSON.stringify(totalBudget));
+  }, [totalBudget]);
+
   useEffect(() => {
     const data = localStorage.getItem('totalBudget');
-    if(data) {
+    if (data) {
       const parsedData = JSON.parse(data);
       setTotalBudget(parsedData);
     } else {
       setTotalBudget(getTotalBudget());
     }
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('totalBudget', JSON.stringify(totalBudget));
-  }, [totalBudget]);
 
   return (
   <div className="App">
