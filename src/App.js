@@ -21,21 +21,17 @@ function App() {
     }
   ]);
 
-  { /* Exercici 4 - Sprint 7 --> definir el total del pressupost i executar useEffect en començar l'aplicació */ }
-  const[totalBudget, setTotalBudget] = useState(0);
-
-  useEffect(() => {
+  { /* Exercici 4 - Sprint 7 --> definir el total del pressupost */ }
+  const [totalBudget, setTotalBudget] = useState(() => {
     const data = localStorage.getItem('totalBudget');
-    if (data) {
-      const parsedData = JSON.parse(data);
-      setTotalBudget(parsedData);
-    }
-  }, []);
-  
-  {/* Exercici 2 - Sprint 7 --> expreure la informació de Panell */ }
+    return data ? JSON.parse(data) : getTotalBudget();
+  });
+
+  {/* Exercici 2 - Sprint 7 --> definir els elements amb els que treballarem al component Panell */ }
   const [pageNum, setPageNum] = useState(0);
   const [languagesNum, setLanguagesNum] = useState(0);
-
+  
+  {/* Exercici 2 - Sprint 7 --> expreure la informació de Panell */ }
   const handlePageNumChange = (event) => {
     const value = parseInt(event.target.value);
     setPageNum(value); 
@@ -67,15 +63,25 @@ function App() {
     return total;
   }, 0);
 
-  { /* Exercici 4 - Sprint 7 --> carregar les noves dades */ }
-  useEffect(() => {
-    const data = JSON.stringify(getTotalBudget());
-    localStorage.setItem('totalBudget', data);
-  }, [totalBudget]);
-
+  { /* Exercici 4 - Sprint 7 --> carregar les dades ja existents */ }
   useEffect(() => {
     setTotalBudget(getTotalBudget());
   }, [budgetInfo, pageNum, languagesNum]);
+
+  { /* Exercici 4 - Sprint 7 --> carregar les dades noves */ }
+  useEffect(() => {
+    const data = localStorage.getItem('totalBudget');
+    if(data) {
+      const parsedData = JSON.parse(data);
+      setTotalBudget(parsedData);
+    } else {
+      setTotalBudget(getTotalBudget());
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('totalBudget', JSON.stringify(totalBudget));
+  }, [totalBudget]);
 
   return (
   <div className="App">
