@@ -29,8 +29,6 @@ function App() {
     return data ? JSON.parse(data) : 0;
   });
 
-  // const [savedLocalStorage, setSavedLocalStorage] = useState(null);
-
   {/* Exercici 2 - Sprint 7 --> definir els elements amb els que treballarem al component Panell */ }
   const [pageNum, setPageNum] = useState(0);
   const [languagesNum, setLanguagesNum] = useState(0);
