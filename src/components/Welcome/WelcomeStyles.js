@@ -21,7 +21,7 @@ const WelcomeBackground = styled.div`
   }
 `;
 
-const ContentWrapper = styled.div`
+const WelcomeContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -79,4 +79,4 @@ const StartButton = styled.button `
       }
 `
 
-export  { WelcomeBackground, WelcomTitle, WelcomeText, ContentWrapper, BoldText, StartButton };
+export  { WelcomeBackground, WelcomTitle, WelcomeText, WelcomeContainer, BoldText, StartButton };

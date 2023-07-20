@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Panell from './components/Panell/Panell';
 import TitleStyle from './TitleStyle';
 import Welcome from './components/Welcome/Welcome';
+import Budget from './components/Budget/Budget';
+import Information from './components/Information/Information';
 
-function App() {
+function App({handleOpenPopupLanguages, handleOpenPopupPages}) {
   { /* Exercici 1 - Sprint 7 --> creació d'un array amb les dades */ }
   const initialBudgetInfo = [
     {
@@ -90,37 +92,24 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
+      <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/budget" Component={() => (
-            <>
-              <TitleStyle>Què vols fer?</TitleStyle>
-              <div>
-                {budgetInfo.map((item, index) => (
-                  <div key={index}>
-                    <input
-                      type="checkbox"
-                      checked={item.isChecked}
-                      onChange={(event) => getBudgetPrice(event, index)}
-                    />
-                    {item.budgetText}
-                    {/* Exercici 2 - Sprint 7 --> Ensenyar el Panell per pantalla */}
-                    <div>
-                      {index === 0 && item.isChecked && (
-                        <Panell
-                          pageNum={pageNum}
-                          languagesNum={languagesNum}
-                          handlePageNumChange={handlePageNumChange}
-                          handleLanguagesNumChange={handleLanguagesNumChange}
-                        />
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p>Preu: {getTotalBudget()}€</p>
-            </>
-          )} />
+          <Route
+            path="/budget"
+            element={
+              <Budget
+                budgetInfo={budgetInfo}
+                pageNum={pageNum}
+                languagesNum={languagesNum}
+                handlePageNumChange={handlePageNumChange}
+                handleLanguagesNumChange={handleLanguagesNumChange}
+                handleOpenPopupPages={handleOpenPopupPages}
+                handleOpenPopupLanguages={handleOpenPopupLanguages}
+                getBudgetPrice={getBudgetPrice}
+                getTotalBudget={getTotalBudget}
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>
