@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Panell from './components/Panell/Panell';
 import TitleStyle from './TitleStyle';
+import Welcome from './components/Welcome/Welcome';
 
 function App() {
   { /* Exercici 1 - Sprint 7 --> creació d'un array amb les dades */ }
@@ -84,35 +86,45 @@ function App() {
     }
   }, []);
 
+  { /* Exercici 5 - Sprint 7 --> rounting per a inicialitzar l'aplicació */ }
   return (
-  <div className="App">
-    <TitleStyle>Què vols fer?</TitleStyle>
-    <div>
-      {budgetInfo.map((item, index) => (
-        <div key={index}>
-          <input
-            type="checkbox"
-            checked={item.isChecked}
-            onChange={(event) => getBudgetPrice(event, index)}
-          />
-          {item.budgetText}
-          {/* Exercici 2 - Sprint 7 --> Ensenyar el Panell per pantalla */}
-          <div>
-            {index === 0 && item.isChecked && (
-            <Panell
-            pageNum={pageNum}
-            languagesNum={languagesNum}
-            handlePageNumChange={handlePageNumChange}
-            handleLanguagesNumChange={handleLanguagesNumChange}
-          />
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-    <p>Preu: {getTotalBudget()}€</p>
-  </div>
-);
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/budget" Component={() => (
+            <>
+              <TitleStyle>Què vols fer?</TitleStyle>
+              <div>
+                {budgetInfo.map((item, index) => (
+                  <div key={index}>
+                    <input
+                      type="checkbox"
+                      checked={item.isChecked}
+                      onChange={(event) => getBudgetPrice(event, index)}
+                    />
+                    {item.budgetText}
+                    {/* Exercici 2 - Sprint 7 --> Ensenyar el Panell per pantalla */}
+                    <div>
+                      {index === 0 && item.isChecked && (
+                        <Panell
+                          pageNum={pageNum}
+                          languagesNum={languagesNum}
+                          handlePageNumChange={handlePageNumChange}
+                          handleLanguagesNumChange={handleLanguagesNumChange}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p>Preu: {getTotalBudget()}€</p>
+            </>
+          )} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

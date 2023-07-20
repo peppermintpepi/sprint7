@@ -37,33 +37,35 @@ const Panell = ({
         }
     };
 
+    // Exercici 2 -  Sprint 7 --> elements del component Panell i les seves característiques
+    // Exercici 3 -  Sprint 7 --> botons '+' i '-' del component Panell
     return ( 
         <BorderPanell>
         <div>
         Número de pàgines
-        <PlusButton onClick = {addCountPages} > + </PlusButton> 
+            <PlusButton onClick = {addCountPages} > + </PlusButton> 
         <input 
-        type = "text"
-        id = "pageNum"
-        value = {pageNum}
-        onChange = {handlePageNumChange}
-        inputMode = "numeric"
-        pattern = "[0-9]*" 
+            type = "text"
+            id = "pageNum"
+            value = {pageNum}
+            onChange = {handlePageNumChange}
+            inputMode = "numeric"
+            pattern = "[0-9]*" 
         />
-        <LessButton onClick = {extractCountPages}> - </LessButton> 
+            <LessButton onClick = {extractCountPages}> - </LessButton> 
         </div>
         <div>
         Número d'idiomes
-        <PlusButton onClick = {addCountLanguages}> + </PlusButton> 
+            <PlusButton onClick = {addCountLanguages}> + </PlusButton> 
         <input 
-        type = "text"
-        id = "languagesNum"
-        value = {languagesNum}
-        onChange = {handleLanguagesNumChange}
-        inputMode = "numeric"
-        pattern = "[0-9]*" 
+            type = "text"
+            id = "languagesNum"
+            value = {languagesNum}
+            onChange = {handleLanguagesNumChange}
+            inputMode = "numeric"
+            pattern = "[0-9]*" 
         />
-        <LessButton onClick = {extractCountLanguages}> - </LessButton> 
+            <LessButton onClick = {extractCountLanguages}> - </LessButton> 
         </div> 
         </BorderPanell>
     );
