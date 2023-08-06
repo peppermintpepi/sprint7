@@ -1,11 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import Panell from "../Panell/Panell";
 import TitleStyle from "../../TitleStyle";
-import Information from "../Information/Information";
+import ClientInfoCollector from '../ClientInfoCollector/ClientInfoCollector';
 
 const Budget = ({
-    budgetInfo,
+    budgetInfo: initialBudgetInfo,
     pageNum,
     languagesNum,
     handlePageNumChange,
@@ -13,18 +12,28 @@ const Budget = ({
     handleOpenPopupPages,
     handleOpenPopupLanguages,
     getBudgetPrice,
-    getTotalBudget
+    getTotalBudget,
+    setBudgetInfo,
 }) => {
-    return (
-        <>
+  { /* Exercici 7 - Sprint 7 --> netejar els checkbox quan s'afegeix un botó */ }
+  const [localBudgetInfo, setLocalBudgetInfo] = useState(initialBudgetInfo);
+
+  const handleCheckboxChange = (event, index) => {
+    const updatedBudgetInfo = [...localBudgetInfo];
+    updatedBudgetInfo[index].isChecked = event.target.checked;
+    setLocalBudgetInfo(updatedBudgetInfo);
+  };
+
+  return (
+    <>
       <TitleStyle>Què vols fer?</TitleStyle>
       <div>
-        {budgetInfo.map((item, index) => (
+        {localBudgetInfo.map((item, index) => (
           <div key={index}>
             <input
               type="checkbox"
               checked={item.isChecked}
-              onChange={(event) => getBudgetPrice(event, index)}
+              onChange={(event) => handleCheckboxChange(event, index)}
             />
             {item.budgetText}
             <div>
@@ -43,7 +52,7 @@ const Budget = ({
         ))}
       </div>
       <p>Preu: {getTotalBudget()}€</p>
-      
+
     </>
   );
 };

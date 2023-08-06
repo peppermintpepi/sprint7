@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { InformationBackground, InformationContainer, InformationButtonPages, InformationButtonLanguages } from "./InformationStyles.js";
 
 function Information({ onClose, text }) {
