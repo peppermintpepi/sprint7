@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SearchButton, CancelSearchButton } from "./SearchBarStyles";
+import { SearchButton, CancelSearchButton, StyledInput } from "./SearchBarStyles";
 
 // Exercici 9 - Sprint 7 --> generar una barra de búsqueda entre el pressupostost generats
 const SearchBar = ({ setSearchText, generatedBudgets, setShowErrorMessage }) => {
@@ -28,9 +28,9 @@ const SearchBar = ({ setSearchText, generatedBudgets, setShowErrorMessage }) => 
 
     return (
         <div>
-            <input type="text" placeholder="Busca pel nom del pressupost" onChange={handleInputText}/>
+            <StyledInput type="text" placeholder="Busca pel pressupost" onChange={handleInputText}/>
             <SearchButton onClick={handleSearch}>Buscar</SearchButton>
-            <CancelSearchButton onClick={handleCancelSearch}>Calcel·la la búsqueda</CancelSearchButton>
+            <CancelSearchButton onClick={handleCancelSearch}>Calcel·la</CancelSearchButton>
         </div>
     );
 };

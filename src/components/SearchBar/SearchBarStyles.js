@@ -40,4 +40,16 @@ const ErrorMessageBG = styled.div `
     align-items: center;
 `
 
-export { SearchButton, CancelSearchButton, ErrorMessageContainer, ErrorMessageBG };
+const StyledInput = styled.input `
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: 16px;
+
+    &:focus {
+    outline: none;
+    border-color: tomato;
+    }
+`
+
+export { SearchButton, CancelSearchButton, ErrorMessageContainer, ErrorMessageBG, StyledInput };
