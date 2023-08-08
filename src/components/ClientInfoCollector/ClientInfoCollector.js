@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ClientName from "../ClientName/ClientName"; 
 import BudgetName from "../BudgetName/BudgetName"; 
 import { ClientInfoButton, TitleBudget, DateStyle, NewBudgetContainer, OrderButton } from "./ClientInfoCollectorStyles";
+import SearchBar from '../SearchBar/SearchBar';
+import { ErrorMessageContainer, ErrorMessageBG } from '../SearchBar/SearchBarStyles';
 
 // Exercici 7 - Sprint 7 --> crear un array amb tota la informació que s'haurà de mostrar per pantalla
 const ClientInfoCollector = ({
@@ -22,6 +24,10 @@ const ClientInfoCollector = ({
     const [sortBy, setSortBy] = useState('default');
     const [sortOrder, setSortOrder] = useState('asc');
     const [originalOrder, setOriginalOrder] = useState([]);
+
+    // Exercici 9 - Sprint 7 --> generar búsqueda per nom
+    const [searchByBudgetName, setSearchByBudgetName] = useState('');
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const handleGenerateBudget = () => {
       const createdAt = new Date().toLocaleString('ca-ES', {
@@ -51,12 +57,12 @@ const ClientInfoCollector = ({
       setGeneratedBudgets((prevGeneratedBudgets) => [
         ...prevGeneratedBudgets,
         newBudget,
-      ]);
+      ].filter((budget) => budget.budgetName.toLowerCase().includes(searchByBudgetName.toLowerCase())));
     
       // Exercici 8 - Sprint 7 --> tornar a l'ordre original
       setOriginalOrder((prevOriginalOrder) => [
         ...prevOriginalOrder,
-        newBudget.id,
+        newBudget.id, 
       ]);
 
       setClientName("");
@@ -100,6 +106,20 @@ const ClientInfoCollector = ({
       });
     };
 
+    // Exercici 9 - Sprint 7 --> utilitzar useEffect per a mantenir els pressupostos afegits quan aparegui el missatge d'error
+    const [errorMessageActive, setErrorMessageActive] = useState(false);
+
+    useEffect(() => {
+      if (showErrorMessage) {
+        setErrorMessageActive(true);
+      };
+    }, [showErrorMessage]);
+
+    const handleErrorMessageClose = () => {
+      setShowErrorMessage(false);
+      setSearchByBudgetName('');
+    };
+
     return (
       <div>
           <ClientName clientName={clientName} setClientName={setClientName} />
@@ -109,43 +129,59 @@ const ClientInfoCollector = ({
           </ClientInfoButton>
 
           <NewBudgetContainer>
-          {generatedBudgets && generatedBudgets.length >= 0 ? (
+          {generatedBudgets && generatedBudgets.length > 0 ? (
             generatedBudgets.map((budget, index) => (
-              <div key={index}>
-                <TitleBudget>Pressupost {index + 1}</TitleBudget>
-                <p>Nom del client: {budget.clientName}</p>
-                <p>Nom del pressupost: {budget.budgetName}</p>
-                <p>Pressupost total: {budget.totalBudget}€</p>
-                <h4>Què vol contractar</h4>
-                {budget.budgetInfo.map((item, idx) => (
-                  item.isChecked ? (
-                    <div key={idx}>
-                      {item.budgetText}
-                      {idx === 0 ? (
-                        <>
-                          <p>Número de pàgines: {pageNum}</p>
-                          <p>Número d'idiomes: {languagesNum}</p>
-                        </>
-                      ) : null}
-                    </div>
-                  ) : null
-                ))}
-                <DateStyle>Data de creació: {budget.createdAt}</DateStyle>
-            </div>
-            
+              searchByBudgetName === '' || budget.budgetName.toLowerCase().includes(searchByBudgetName.toLowerCase()) ? (
+                <div key={index}>
+                  <TitleBudget>Pressupost {index + 1}</TitleBudget>
+                  <p>Nom del client: {budget.clientName}</p>
+                  <p>Nom del pressupost: {budget.budgetName}</p>
+                  <p>Pressupost total: {budget.totalBudget}€</p>
+                  <h4>Què vol contractar</h4>
+                  {budget.budgetInfo.map((item, idx) => (
+                    item.isChecked ? (
+                      <div key={idx}>
+                        {item.budgetText}
+                        {idx === 0 ? (
+                          <>
+                            <p>Número de pàgines: {pageNum}</p>
+                            <p>Número d'idiomes: {languagesNum}</p>
+                          </>
+                        ) : null}
+                      </div>
+                    ) : null
+                  ))}
+                  <DateStyle>Data de creació: {budget.createdAt}</DateStyle>
+                </div>
+              ) : null
             ))
-        ) : (
+          ) : (
             <p>No hi ha informació disponible.</p>
-        )}
-         <div>
-          <OrderButton onClick={handleSortByName}>Ordenar per nom</OrderButton>
-          <OrderButton onClick={handleSortByDate}>Ordenar per data</OrderButton>
-          <OrderButton onClick={handleRestoreOrder}>Restaurar</OrderButton>
-        </div>
-        </NewBudgetContainer>
+          )}
+          <div>
+            <OrderButton onClick={handleSortByName}>Ordenar per nom</OrderButton>
+            <OrderButton onClick={handleSortByDate}>Ordenar per data</OrderButton>
+            <OrderButton onClick={handleRestoreOrder}>Restaurar</OrderButton>
+          </div>
+          <div>
+            <SearchBar 
+                setSearchText={setSearchByBudgetName}
+                generatedBudgets={generatedBudgets}
+                setShowErrorMessage={setShowErrorMessage}
+            />
+            </div>
+            </NewBudgetContainer>
 
-      </div>
-  );
+          {showErrorMessage && (
+                <ErrorMessageBG onClick={handleErrorMessageClose}>
+                    <ErrorMessageContainer>
+                        El text cercat no existeix. Sis plau tornar a intentar.
+                    </ErrorMessageContainer>
+                </ErrorMessageBG>
+            )}
+
+        </div>
+    );
 };
 
 export default ClientInfoCollector;
