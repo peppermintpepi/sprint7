@@ -58,7 +58,7 @@ const ClientInfoCollector = ({
         ...prevOriginalOrder,
         newBudget.id,
       ]);
-s
+
       setClientName("");
       setBudgetName("");
     };
