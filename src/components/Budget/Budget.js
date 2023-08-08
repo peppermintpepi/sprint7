@@ -11,9 +11,7 @@ const Budget = ({
     handleLanguagesNumChange,
     handleOpenPopupPages,
     handleOpenPopupLanguages,
-    getBudgetPrice,
     getTotalBudget,
-    setBudgetInfo,
 }) => {
   { /* Exercici 7 - Sprint 7 --> netejar els checkbox quan s'afegeix un botó */ }
   const [localBudgetInfo, setLocalBudgetInfo] = useState(initialBudgetInfo);

@@ -12,6 +12,12 @@ const ClientInfoButton = styled.button `
     font-weight: bold;
 `
 
+const OrderButton = styled.button `
+    border: 0px;
+    border-radius: 25px;
+    padding: 1rem;
+    margin: 1rem;
+`
 const TitleBudget = styled.h3 `
     color: tomato;
 `
@@ -24,7 +30,8 @@ const NewBudgetContainer = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    margin-top: 1 rem;
+    margin-left: 0;
     flex: 1;
     position: fixed;
     top: 75px;
@@ -46,4 +53,4 @@ const NewBudgetContainer = styled.div `
     }
 `
 
-export { ClientInfoButton, TitleBudget, DateStyle, NewBudgetContainer };
+export { ClientInfoButton, TitleBudget, DateStyle, NewBudgetContainer, OrderButton };
