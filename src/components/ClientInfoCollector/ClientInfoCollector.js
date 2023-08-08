@@ -69,6 +69,22 @@ const ClientInfoCollector = ({
       setBudgetName("");
     };
 
+    // Exercici 10 - Sprint --> crear una funció per a guardar els pressupostos
+    const saveBudgetsToLocalStorage = (budgets) => {
+      localStorage.setItem('generatedBudgets', JSON.stringify(budgets));
+    };
+
+    useEffect(() => {
+      saveBudgetsToLocalStorage(generatedBudgets);
+    }, [generatedBudgets]);
+
+    useEffect(() => {
+      const savedBudgets = JSON.parse(localStorage.getItem('generatedBudgets'));
+      if (savedBudgets) {
+        setGeneratedBudgets(savedBudgets);
+      }
+    }, []);
+
     // Exercici 8 - Sprint 7 --> ordenar per nom del pressupost
     const handleSortByName = () => {
       setSortBy('budgetName');
