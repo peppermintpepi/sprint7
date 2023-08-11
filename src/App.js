@@ -162,6 +162,7 @@ function App({handleOpenPopupLanguages, handleOpenPopupPages}) {
                 getBudgetPrice={getBudgetPrice}
                 getTotalBudget={getTotalBudget}
                 setBudgetInfo={setBudgetInfo}
+                setGeneratedBudgets={setGeneratedBudgets}
               />
             }
           />

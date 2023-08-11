@@ -18,6 +18,7 @@ const ClientInfoCollector = ({
     languagesNum,
     generatedBudgets,
     setGeneratedBudgets,
+    navigateToBudget,
   }) => {
 
     // Exercici 8 - Sprint 7 --> accions per a ordenar els newBudget
@@ -28,7 +29,7 @@ const ClientInfoCollector = ({
     // Exercici 9 - Sprint 7 --> generar búsqueda per nom
     const [searchByBudgetName, setSearchByBudgetName] = useState('');
     const [showErrorMessage, setShowErrorMessage] = useState(false);
-
+    
     const handleGenerateBudget = () => {
       const createdAt = new Date().toLocaleString('ca-ES', {
         year: 'numeric',
@@ -38,9 +39,9 @@ const ClientInfoCollector = ({
         minute: '2-digit',
         second: '2-digit',
       });
-    
+      
       console.log("Creating budget with createdAt:", createdAt);
-    
+      
       const newBudget = {
         id: uuidv4(),
         clientName,
@@ -51,9 +52,9 @@ const ClientInfoCollector = ({
         createdAt: createdAt,
         budgetInfo: budgetInfo.map((item) => ({ ...item })),
       };
-    
+      
       console.log("New budget:", newBudget);
-    
+
       setGeneratedBudgets((prevGeneratedBudgets) => [
         ...prevGeneratedBudgets,
         newBudget,
@@ -67,11 +68,12 @@ const ClientInfoCollector = ({
 
       setClientName("");
       setBudgetName("");
+
     };
 
     // Exercici 10 - Sprint --> crear una funció per a guardar els pressupostos
     const saveBudgetsToLocalStorage = (budgets) => {
-      localStorage.setItem('generatedBudgets', JSON.stringify(budgets));
+      localStorage.setItem('generatedBudgets', JSON.stringify(budgets));  
     };
 
     useEffect(() => {
